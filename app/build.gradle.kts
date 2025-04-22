@@ -56,4 +56,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.compose.ui:ui:1.6.0") // ou versão mais atual
+    implementation("androidx.compose.foundation:foundation:1.6.0")
+    implementation("androidx.compose.material:material:1.6.0")
+
 }

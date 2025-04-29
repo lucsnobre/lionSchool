@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Button
@@ -43,11 +44,11 @@ import br.senai.sp.jandira.lionschool.R
 
 
 val imageModifier = Modifier
-    .size(200.dp)
-    .padding(end = 20.dp)
+    .size(190.dp)
+    .padding(end = 10.dp)
 
 @Composable
-fun HomeScreen() {
+fun TelaInicial() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -76,18 +77,24 @@ fun HomeScreen() {
                     modifier = Modifier
                         .padding(vertical = 40.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = stringResource(R.string.logo_descripition),
-                        contentScale = ContentScale.Fit,
-                        modifier = imageModifier
-                    )
-                    Text(
-                        text = stringResource(R.string.title),
-                        fontSize = 40.sp,
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp), // espaço entre elas
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logo),
+                            contentDescription = "Logo principal",
+                            modifier = Modifier.size(150.dp)
+                        )
+
+                        Image(
+                            painter = painterResource(id = R.drawable.logo_text),
+                            contentDescription = "Logo secundária",
+                            modifier = Modifier.size(150.dp)
+                        )
+                    }
+
                 }
                 Text(
                     text = stringResource(R.string.textblue1),
@@ -114,16 +121,21 @@ fun HomeScreen() {
                     onClick = {},
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
-                        .padding(vertical = 70.dp),
+                        .padding(vertical = 100.dp)
+                        .height(60.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFFC23D),
-                        contentColor = Color.Black
+                        containerColor = Color(0xFFFFC23D), // cor do fundo
+                        contentColor = Color(0xFF3347B0) // cor da fonte
                     ),
-                    border = BorderStroke(2.dp, Color.Black)
+                    border = BorderStroke(2.dp, Color(0xFF3347B0)),
+                shape = RoundedCornerShape(16.dp)// cor da borda e forma da borda
                 ) {
                     Text(
-                        text = stringResource(R.string.name_button)
+                        text = stringResource(R.string.name_button),
+                        color = Color(0xFF3347B0), // cor da fonte
+                        fontSize = 19.sp
                     )
+
                 }
             }
             Row(
@@ -161,5 +173,5 @@ fun HomeScreen() {
 @Preview(showSystemUi = true)
 @Composable
 private fun TelaInicialPreview() {
-    TelaInicialPreview()
+    TelaInicial()
 }

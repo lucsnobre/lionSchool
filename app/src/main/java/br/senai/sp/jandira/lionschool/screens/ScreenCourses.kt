@@ -1,47 +1,37 @@
 package br.senai.sp.jandira.lionschool.screens
 
+
+import CourseCard
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.TabRowDefaults.Divider
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lionschool.R
-import br.senai.sp.jandira.lionschool.model.Aluno
-import br.senai.sp.jandira.lionschool.model.Disciplina
 import br.senai.sp.jandira.lionschool.ui.theme.LionSchoolTheme
 
+val imageModifierHead = Modifier
+    .size(40.dp)
+    .padding(end = 8.dp)
+
 @Composable
-fun StudentPerformanceScreen(
-    navController: NavHostController,
-    aluno: Aluno = mockStudentData()
-) {
+fun CoursesScreen(navController: NavHostController) {
     LionSchoolTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -49,7 +39,7 @@ fun StudentPerformanceScreen(
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                // Header
+                // Cabeçalho
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -57,57 +47,54 @@ fun StudentPerformanceScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    IconButton(
-                        onClick = { navController.popBackStack() }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Voltar",
-                            tint = Color(0xFF3347B0)
+                        Image(
+                            painter = painterResource(id = R.drawable.logo),
+                            contentDescription = stringResource(R.string.logo_descripition),
+                            contentScale = ContentScale.Fit,
+                            modifier = imageModifierHead
+                        )
+                        Text(
+                            text = stringResource(R.string.title),
+                            fontSize = 18.sp,
+                            color = Color.Blue,
+                            fontWeight = FontWeight.Bold
                         )
                     }
-
-                    Text(
-                        text = "Desempenho",
-                        fontSize = 18.sp,
-                        color = Color(0xFF3347B0),
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(modifier = Modifier.size(40.dp))
+                    Card(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape),
+                        colors = CardDefaults.cardColors(Color(0xFFFFC23D))
+                    ) {
+                        // Ícone do perfil (opcional)
+                    }
                 }
 
-                // Informações do aluno
-                Column(
+                // Campo de busca
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "Foto do aluno",
-                        modifier = Modifier
-                            .size(80.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFF7D87E4))
-                    )
+                        .padding(top = 8.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    placeholder = {
+                        Text(text = stringResource(R.string.search_placeholder))
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringResource(R.string.search_placeholder),
+                            tint = Color.Gray
+                        )
+                    }
+                )
 
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = aluno.nome,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF3347B0)
-                    )
-
-                    Text(
-                        text = aluno.curso,
-                        fontSize = 16.sp,
-                        color = Color.Gray
-                    )
-                }
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Divider(
                     color = Color(0xFFFFC23D),
@@ -115,127 +102,28 @@ fun StudentPerformanceScreen(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
 
-                // Quadrado azul com as disciplinas
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            color = Color(0xFF3347B0).copy(alpha = 0.1f),
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(16.dp)
-                ) {
-                    Column {
-                        Text(
-                            text = "Notas por disciplina:",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF3347B0),
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
+                Text(
+                    text = stringResource(R.string.courses_section_title),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF3347B0),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 16.dp)
+                )
 
-                        aluno.disciplinas.forEach { disciplina ->
-                            SubjectPerformanceItem(disciplina = disciplina)
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-
-                        // Rodapé "Concluído" no canto inferior direito
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp),
-                            contentAlignment = Alignment.BottomEnd
-                        ) {
-                            Text(
-                                text = "Concluído",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF27AE60)
-                            )
-                        }
-                    }
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    CourseCard()
+                    CourseCard()
+                    CourseCard()
                 }
             }
         }
     }
 }
 
-@Composable
-fun SubjectPerformanceItem(disciplina: Disciplina) {
-    val progressColor = when {
-        disciplina.media < 60 -> Color(0xFFE74C3C)
-        disciplina.media < 80 -> Color(0xFFF39C12)
-        else -> Color(0xFF27AE60)
-    }
-
-    val progressValue = disciplina.media / 100f
-
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = disciplina.sigla,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF3347B0)
-            )
-
-            Text(
-                text = "%.0f".format(disciplina.media),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = progressColor
-            )
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .background(Color.LightGray, RoundedCornerShape(4.dp))
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-                    .background(progressColor, RoundedCornerShape(4.dp))
-            )
-        }
-    }
-}
-
-// Função mock para preview
-private fun mockStudentData(): Aluno {
-    return Aluno(
-        id = 1,
-        nome = "Mohammad",
-        matricula = "001",
-        curso = "Técnico em Desenvolvimento de Sistemas",
-        foto = "",
-        status = "Concluído",
-        anoConclusao = "2024",
-        disciplinas = listOf(
-            Disciplina(1, "SIOP", 20.0, "Reprovado"),
-            Disciplina(2, "INRI", 70.0, "Aprovado"),
-            Disciplina(3, "INNU", 65.0, "Aprovado"),
-            Disciplina(4, "HA", 80.0, "Aprovado"),
-            Disciplina(5, "SERE", 100.0, "Aprovado"),
-            Disciplina(6, "CAES", 52.0, "Reprovado")
-        )
-    )
-}
-
 @Preview(showSystemUi = true)
 @Composable
-fun StudentPerformanceScreenPreview() {
+fun CoursesScreenPreview() {
     LionSchoolTheme {
-        StudentPerformanceScreen(
-            navController = androidx.navigation.compose.rememberNavController(),
-            aluno = mockStudentData()
-        )
+        CoursesScreen(navController = rememberNavController())
     }
-}}
+}

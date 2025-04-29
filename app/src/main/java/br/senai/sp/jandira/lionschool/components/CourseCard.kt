@@ -1,12 +1,7 @@
+package br.senai.sp.jandira.lionschool.components
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -22,16 +17,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.lionschool.R
+import br.senai.sp.jandira.lionschool.model.Course
 import br.senai.sp.jandira.lionschool.ui.theme.LionSchoolTheme
 
 @Composable
 fun CourseCard(
     course: Course = Course(
         id = 0,
-        sigla = "XXX",
+        sigla = "mcmarks",
         icone = R.drawable.programming1,
-        nome = "Curso Exemplo",
-        descricao = "Descrição do curso de exemplo.",
+        nome = "cursopramodelo",
+        descricao = "desc do curso",
         cargaHoraria = "40h"
     ),
     courseIcon: Int? = R.drawable.programming1
@@ -103,6 +99,23 @@ fun CourseCardPreview() {
             nome = stringResource(R.string.course_rds_name),
             descricao = stringResource(R.string.course_rds_description),
             cargaHoraria = stringResource(R.string.course_rds_duration)
+        )
+        val courseEle = Course(
+            id = 1,
+            sigla = "ELE",
+            icone = R.drawable.lion_chip1, // Substitua pelo ícone correto
+            nome = "Eletrônica",
+            descricao = "Curso técnico de eletrônica.",
+            cargaHoraria = "1200h"
+        )
+
+        val DSCourse = Course(
+            id = 2,
+            sigla = "DS",
+            icone = R.drawable.programming1,
+            nome = "Desenvolvimento de Sistemas",
+            descricao = "Curso técnico de desenvolvimento de sistemas.",
+            cargaHoraria = "1200h"
         )
         CourseCard(
             course = exampleCourse,

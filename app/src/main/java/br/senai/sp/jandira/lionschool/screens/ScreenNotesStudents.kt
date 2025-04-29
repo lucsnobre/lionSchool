@@ -1,188 +1,228 @@
-package br.senai.sp.jandira.lionschool.screens
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.lionschool.R
-import br.senai.sp.jandira.lionschool.screens.components.SoonComplete
+import br.senai.sp.jandira.lionschool.model.Aluno
+import br.senai.sp.jandira.lionschool.model.Disciplina
+import br.senai.sp.jandira.lionschool.ui.theme.LionSchoolTheme
 
 @Composable
-fun StudentListScreen(
+fun StudentPerformanceScreen(
+    navController: NavHostController,
+    aluno: Aluno = mockStudentData()
 ) {
-    val searchCourseState = remember {
-        mutableStateOf(value = "")
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = Color.White
-            )
-    ){
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ){
-            Column (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.1f)
-            ){
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth(0.3f)
-                            .fillMaxHeight(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        SoonComplete()
-                    }
-
-                    Row (
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .aspectRatio(1f)
-                            .padding(10.dp)
-                        ,
-                    ) {
-                        Card (
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .aspectRatio(1f)
-                            ,
-                            shape = CircleShape,
-                            colors = CardDefaults.cardColors(
-                                colorResource(R.color.amareloDiferente)
-                            ),
-                            elevation = CardDefaults.elevatedCardElevation(5.dp)
-                        ) { }
-                    }
-                }
-                HorizontalDivider(
-                    color = colorResource(R.color.amareloDiferente)
-                )
-            }
-            Column (
+    LionSchoolTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp, 20.dp, 10.dp, 20.dp)
+                    .padding(16.dp)
             ) {
-                Column {
-                    OutlinedTextField(
-                        value = searchCourseState.value,
-                        onValueChange = {
-                            searchCourseState.value = it
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                color = colorResource(R.color.cinzaClaro),
-                                RoundedCornerShape(18.dp)
-                            )
-                            .border(
-                                2.dp,
-                                color = colorResource(R.color.amareloDiferente),
-                                RoundedCornerShape(18.dp)
-                            ),
-                        label = {
-                            Text(
-                                text = stringResource(R.string.find_your_course),
-                                color = colorResource(R.color.cinza),
-                            )
-                        },
-                        trailingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "",
-                                tint = colorResource(R.color.cinza)
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color.Transparent,
-                            cursorColor = Color(0xFFBA88FF),
-                            unfocusedLabelColor = Color(0xFFBA88FF)
+                // Header
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Voltar",
+                            tint = Color(0xFF3347B0)
                         )
-                    )
-                }
-                Row (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(0.dp, 20.dp, 0.dp, 20.dp)
-                ){
-                    Image(
-                        painter = painterResource(id = R.drawable.a_graduetio_big_dick_nigga),
-                        contentDescription = "Graduation Icon"
-                    )
-                    Text(
-                        text = stringResource(R.string.students),
-                        color = colorResource(R.color.azulDiferente),
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(top = 13.dp)
-                    )
-                }
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize()
-                ){}
+                    }
 
+                    Text(
+                        text = "Desempenho",
+                        fontSize = 18.sp,
+                        color = Color(0xFF3347B0),
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.size(40.dp))
+                }
+
+                // Informações do aluno
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                        contentDescription = "Foto do aluno",
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF7D87E4))
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = aluno.nome,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF3347B0)
+                    )
+
+                    Text(
+                        text = aluno.curso,
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
+                }
+
+                Divider(
+                    color = Color(0xFFFFC23D),
+                    thickness = 2.dp,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+
+                // Quadrado azul com as disciplinas
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = Color(0xFF3347B0).copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    Column {
+                        Text(
+                            text = "Notas por disciplina:",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF3347B0),
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+
+                        aluno.disciplinas.forEach { disciplina ->
+                            SubjectPerformanceItem(disciplina = disciplina)
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+
+                        // Rodapé "Concluído" no canto inferior direito
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
+                            contentAlignment = Alignment.BottomEnd
+                        ) {
+                            Text(
+                                text = "Concluído",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF27AE60)
+                            )
+                        }
+                    }
                 }
             }
         }
     }
+}
 
-@Preview
 @Composable
-private fun StudentListScreenPreview() {
-    StudentListScreen()
+fun SubjectPerformanceItem(disciplina: Disciplina) {
+    val progressColor = when {
+        disciplina.media < 60 -> Color(0xFFE74C3C)
+        disciplina.media < 80 -> Color(0xFFF39C12)
+        else -> Color(0xFF27AE60)
+    }
+
+    val progressValue = disciplina.media / 100f
+
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = disciplina.sigla,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF3347B0)
+            )
+
+            Text(
+                text = "%.0f".format(disciplina.media),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = progressColor
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .background(Color.LightGray, RoundedCornerShape(4.dp))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(progressColor, RoundedCornerShape(4.dp))
+            )
+        }
+    }
+}
+
+// Função mock para preview
+private fun mockStudentData(): Aluno {
+    return Aluno(
+        id = 1,
+        nome = "Pocodi da Silva",
+        matricula = "017",
+        curso = "Técnico em Desenvolvimento de Sistemas",
+        foto = "",
+        status = "Concluído",
+        anoConclusao = "2024",
+        disciplinas = listOf(
+            Disciplina(1, "SIOP", 20.0, "Reprovado"),
+            Disciplina(2, "INRI", 70.0, "Aprovado"),
+            Disciplina(3, "INNU", 65.0, "Aprovado"),
+            Disciplina(4, "HA", 80.0, "Aprovado"),
+            Disciplina(5, "SERE", 100.0, "Aprovado"),
+            Disciplina(6, "CAES", 52.0, "Reprovado")
+        )
+    )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun StudentPerformanceScreenPreview() {
+    LionSchoolTheme {
+        StudentPerformanceScreen(
+            navController = androidx.navigation.compose.rememberNavController(),
+            aluno = mockStudentData()
+        )
+    }
 }
